@@ -39,7 +39,7 @@ $errors = ["id"=>"", "title"=>"", "author"=>"", "genre"=>"", "publication_year"=
 
         if (empty(array_filter($errors)))
         {
-             $bookObj = new Book();
+            $bookObj = new Book();
             $bookObj->id = $book["id"];
             $bookObj->title = $book["title"];
             $bookObj->author = $book["author"];
@@ -81,7 +81,7 @@ $errors = ["id"=>"", "title"=>"", "author"=>"", "genre"=>"", "publication_year"=
         <p class="error"><?= $errors["author"] ?></p>
 
         <label for="">Genre <span>*</span></label>
-        <select name="Genre" id="Genre">
+        <select name="genre" id="genre">
             <option value="">--Select--</option>
             <option value="history" <?= ($book["genre"] == "history") ? "selected" : ""; ?>>History</option>
             <option value="science" <?= ($book["genre"] == "science") ? "selected" : ""; ?>>Science</option>

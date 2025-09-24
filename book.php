@@ -32,14 +32,27 @@ class Book
         return $query->execute();
     }
 
-        public function viewBook()
+        public function viewBook($search = '', $genre = '')
     {
-        $sql = "SELECT * from books ORDER BY id ASC";
-        $query = $this->db->connect()->prepare($sql);
+        $sql = "SELECT * FROM books WHERE 1"; 
+        $params = [];
 
-        if ($query->execute())
-            return $query->fetchAll();
-        else
+        if (!empty($search)) {
+            $sql .= " AND (title LIKE :search OR author LIKE :search)";
+            $params[':search'] = "%$search%";
+        }
+
+        if (!empty($genre)) {
+            $sql .= " AND genre = :genre";
+            $params[':genre'] = $genre;
+        }
+
+        $sql .= " ORDER BY id ASC";
+        $query = $this->db->connect()->prepare($sql);
+        $query->execute($params);
+
+        return $query->fetchAll();
+        
             return null;
     }
 }
