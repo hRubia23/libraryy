@@ -11,7 +11,7 @@ class Database
 
     public function connect()
     {
-        $this->conn = new POD("mysql:host=$this->host;dbname=$this->dbname",
+        $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname",
         $this->username, $this->password);
 
         return $this->conn;

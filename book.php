@@ -1,8 +1,8 @@
 <?php
 
-require_once "databases.php";
 
-class Product
+
+class Book
 {
     public $id = "";
     public $title = "";
@@ -13,14 +13,14 @@ class Product
 
     protected $db;
 
-    public function _construct()
+    public function __construct()
     {
         $this->db = new Database();
     }
 
-    public function addProduct()
+    public function addBook()
     {
-        $sql = "INSERT INTO book (id, title, author, genre, publication_year, copies) VALUE (:id, :title, :author, :genre, :publication_year, :copies)";
+        $sql = "INSERT INTO books (id, title, author, genre, publication_year, copies) VALUES (:id, :title, :author, :genre, :publication_year, :copies)";
         $query = $this->db->connect()->prepare($sql);
         $query->bindParam(":id", $this->id);
         $query->bindParam(":title", $this->title);
@@ -29,12 +29,12 @@ class Product
         $query->bindParam(":publication_year", $this->publication_year);
         $query->bindParam(":copies", $this->copies);
 
-        return $query->excute();
+        return $query->execute();
     }
 
-        public function viewProduct()
+        public function viewBook()
     {
-        $sql = "SELECT * from book ORDER BY id ASC";
+        $sql = "SELECT * from books ORDER BY id ASC";
         $query = $this->db->connect()->prepare($sql);
 
         if ($query->execute())
