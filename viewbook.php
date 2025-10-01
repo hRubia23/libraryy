@@ -3,7 +3,6 @@ require_once "database.php";
 require_once "book.php";
 
 $bookObj = new Book();
-$books = $bookObj->viewBook();
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $genreFilter = isset($_GET['genre']) ? trim($_GET['genre']) : '';
@@ -13,7 +12,6 @@ $books = $bookObj->viewBook($search, $genreFilter);
 if (!$books) {
     $books = [];
 }
-$counter = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +24,8 @@ $counter = 1;
     <h1>List of Books</h1>
     <button><a href="addbook.php">Add Book</a></button>
     <form method="get">
-        <input type="text" name="search" placeholder="Search by title or author" value="<?= htmlspecialchars($search) ?>">
+        <label for=:>Search:</label>
+        <input type="text" name="search" placeholder="" value="<?= htmlspecialchars($search) ?>">
         <select name="genre">
             <option value="">All Genres</option>
             <option value="fiction" <?= $genreFilter=="fiction"?"selected":"" ?>>Fiction</option>
@@ -36,16 +35,18 @@ $counter = 1;
         <button type="submit">Search</button>
     </form>
 
-    <table border=1>
+    <table border="1">
         <tr>
-            <th>id</th>
+            <th>ID</th>
             <th>Title</th>
             <th>Author</th>
             <th>Genre</th>
-            <th>publication Year</th>
+            <th>Publication Year</th>
             <th>Copies</th>
+            <th>Action</th>
         </tr>
-         <?php foreach ($books as $book): ?>
+        <?php foreach ($books as $book): ?>
+            <?php $message = "Are you sure you want to delete the book '" . $book["title"] . "'?"; ?>
             <tr>
                 <td><?= htmlspecialchars($book["id"]) ?></td>
                 <td><?= htmlspecialchars($book["title"]) ?></td>
@@ -53,12 +54,12 @@ $counter = 1;
                 <td><?= htmlspecialchars($book["genre"]) ?></td>
                 <td><?= htmlspecialchars($book["publication_year"]) ?></td>
                 <td><?= htmlspecialchars($book["copies"]) ?></td>
-        
+                <td>
+                    <a href="editbook.php?id=<?= $book["id"] ?>">Edit</a>
+                    <a href="delete.php?id=<?= $book['id'] ?>&confirm=yes" onclick="return confirm('Are you sure you want to delete this book?')">Delete</a>
+                </td>
             </tr>
-        <?php
-        
-          endforeach
-        ?>
+        <?php endforeach; ?>
     </table>
 </body>
 </html>
